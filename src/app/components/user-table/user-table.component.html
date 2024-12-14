@@ -1,1 +1,32 @@
-<p>user-table works!</p>
+<h1>User Table</h1>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Date of Birth</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users">
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.surname }}</td>
+            <td>{{ user.dateOfBirth | date: 'yyyy-MM-dd' }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.isActive ? 'Yes' : 'No' }}</td>
+            <td>
+                <button (click)="deleteUser(user.id)">Delete</button>
+                <button (click)="editUser(user.id)">Edit</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p *ngIf="!users.length">No users available.</p>
