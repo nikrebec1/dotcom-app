@@ -9,13 +9,13 @@ export const selectUserState = createFeatureSelector<UserState>('user');
 // Selector for the full list of users
 export const selectAllUsers = createSelector(
   selectUserState,
-  (state: UserState) => state.users
+  (state: UserState) => state?.users
 );
 
 // Selector for the loading flag
 export const selectLoading = createSelector(
   selectUserState,
-  (state: UserState) => state.loading
+  (state: UserState) => state?.loading
 );
 
 export const selectUserById = (id: number) =>
