@@ -18,4 +18,3 @@ export const appConfig: ApplicationConfig = {
   ]
 };
 
-console.log("prdni")

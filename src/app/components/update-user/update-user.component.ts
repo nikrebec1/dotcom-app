@@ -34,19 +34,15 @@ export class UpdateUserComponent implements OnInit {
     const userId = this.route.snapshot.paramMap.get('id');
 
     if (userId) {
-
+      // Select the user by ID once users are loaded
       this.store.select(UserSelector.selectUserById(userId))
-        .subscribe(() => {
-          // Select the user by ID once users are loaded
-          this.user$ = this.store.select(UserSelector.selectUserById(userId));
-          this.user$.pipe(take(1)).subscribe((response: User | undefined) => {
-            if (response) {
-              this.patchForm(response);
-            } else {
-              console.error("User undefined");
-              this.router.navigate(['/users-table']);
-            }
-          });
+        .pipe(take(1)).subscribe((response: User | undefined) => {
+          if (response) {
+            this.patchForm(response);
+          } else {
+            console.error("User undefined");
+            this.router.navigate(['/users-table']);
+          }
         });
     } else {
       console.error("Invalid User ID");

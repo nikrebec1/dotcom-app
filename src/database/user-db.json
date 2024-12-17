@@ -1,15 +1,6 @@
 {
   "users": [
     {
-      "id": "4",
-      "name": "asdasdasasasdasd",
-      "surname": "bimboasd",
-      "dateOfBirth": "1999-10-08",
-      "email": "a@g",
-      "phone": "",
-      "isActive": false
-    },
-    {
       "id": "5",
       "name": "bebo",
       "surname": "bimbo",
@@ -33,6 +24,15 @@
       "surname": "sajo stroj",
       "dateOfBirth": "2024-12-04",
       "email": "nik.rebec@gmail.com",
+      "phone": "",
+      "isActive": true
+    },
+    {
+      "id": "2",
+      "name": "kekw",
+      "surname": "kekw",
+      "dateOfBirth": "1999-12-12",
+      "email": "k@k",
       "phone": "",
       "isActive": true
     }
