@@ -63,6 +63,26 @@ export const addUser = createEffect(
     {functional: true}
 )
 
+export const updateUser = createEffect(
+    (actions$ = inject(Actions), apiService = inject(ApiService), router = inject(Router), store = inject(Store)) => {
+        return actions$.pipe(
+            ofType(UserActions.updateUser),
+            mergeMap((action) =>
+                {return apiService.updateUser(action.user).pipe(
+                    map((user: User) => UserActions.updateUserSuccess({ user })),
+                    tap(() => {
+                        router.navigate(['users-table'])
+
+                    })
+                )}
+            )
+            
+        )
+    },
+    {functional: true}
+
+)
+
 // @Injectable()
 // export class UserEffects {
 //     constructor(private actions$: Actions, private apiService: ApiService) { 

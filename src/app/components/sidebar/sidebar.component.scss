@@ -1,8 +1,47 @@
-.custom {
-    background-color: lightgreen;
-    width: 150px;
+/* Sidebar Container */
+.sidebar {
+    background-color: #333; /* Dark sidebar background */
+    color: #fff; /* Text color */
+    width: 175px; /* Sidebar width */
+    height: calc(100vh - 60px); /* Full viewport height */
     display: flex;
-    height:100%;
-    justify-content: start;
-    flex-direction: column;
-}
+    flex-direction: column; /* Stack links vertically */
+    padding: 20px 10px;
+  
+    /* Sidebar Title or Logo */
+    .sidebar-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+      text-transform: uppercase;
+      color: #f4f4f4;
+    }
+  
+    /* Navigation Links */
+    nav {
+      button {
+        display: block;
+        color: #000000;
+        text-decoration: none;
+        padding: 10px 15px;
+        margin: 5px 0;
+        border-radius: 4px; /* Rounded corners */
+        transition: background-color 0.3s, color 0.3s;
+        width: 100%;
+  
+        &:hover {
+          background-color: #555; /* Highlight background */
+          color: #fff; /* Brighten text color */
+        }
+      }
+    }
+  
+    /* Active Link Highlight */
+    .active-link {
+      background-color: #007bff; /* Active link background */
+      color: #fff;
+    }
+  }
+
+  

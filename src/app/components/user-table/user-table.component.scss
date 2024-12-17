@@ -1,0 +1,88 @@
+/* Container for the entire table */
+.table-container {
+    margin: 0 auto;
+    /* Adjust to match the sidebar width */
+    padding: 20px;
+    /* Add padding around content */
+    box-sizing: border-box;
+    /* Include padding in width calculation */
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+
+    /* Header Row Styling */
+    thead {
+        background-color: #f4f4f4;
+
+        th {
+            padding: 12px;
+            font-weight: bold;
+            color: #333;
+            text-transform: uppercase;
+            text-align: left;
+        }
+    }
+
+    /* Body Row Styling */
+    tbody {
+        tr {
+            border-bottom: 1px solid #ddd;
+
+            &:hover {
+                background-color: #f9f9f9;
+                transition: background-color 0.3s ease-in-out;
+            }
+
+            td {
+                padding: 10px;
+                color: #555;
+            }
+        }
+    }
+}
+
+/* Actions Column Styling */
+td button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    margin-right: 5px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+
+    &:last-child {
+        background-color: #28a745;
+
+        &:hover {
+            background-color: #1e7e34;
+        }
+    }
+}
+
+/* No Users Message */
+.no-users {
+    margin-left: 250px;
+    /* Align the message with the table */
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+    margin-top: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+}

@@ -1,58 +1,40 @@
 {
   "users": [
     {
-      "id": "3",
-      "name": "Charlie",
-      "surname": "Brown",
-      "dateOfBirth": "1992-07-08",
-      "email": "charlie.brown@example.com",
-      "phone": 112233445,
-      "isActive": true
+      "id": "4",
+      "name": "asdasdasasasdasd",
+      "surname": "bimboasd",
+      "dateOfBirth": "1999-10-08",
+      "email": "a@g",
+      "phone": "",
+      "isActive": false
     },
     {
-      "id": "2",
-      "name": "Diana",
-      "surname": "Miller",
-      "dateOfBirth": "1988-02-14",
-      "email": "diana.miller@example.com",
-      "phone": 556677889,
+      "id": "5",
+      "name": "bebo",
+      "surname": "bimbo",
+      "dateOfBirth": "1970-03-12",
+      "email": "a@g",
+      "phone": "",
+      "isActive": false
+    },
+    {
+      "id": "8",
+      "name": "new user",
+      "surname": "olduser",
+      "dateOfBirth": "2025-01-02",
+      "email": "nik.rebec@gmail.com",
+      "phone": "",
       "isActive": true
     },
     {
       "id": "7",
-      "name": "Diana",
-      "surname": "Miller",
-      "dateOfBirth": "1988-02-14",
-      "email": "diana.miller@example.com",
-      "phone": 556677889,
+      "name": "sajo stroj",
+      "surname": "sajo stroj",
+      "dateOfBirth": "2024-12-04",
+      "email": "nik.rebec@gmail.com",
+      "phone": "",
       "isActive": true
-    },
-    {
-      "id": "9",
-      "name": "gd dgdg",
-      "surname": "dgdggg",
-      "dateOfBirth": "2024-12-11",
-      "email": "a@a",
-      "phone": "",
-      "isActive": false
-    },
-    {
-      "id": 8,
-      "name": "88888",
-      "surname": "888888",
-      "dateOfBirth": "2024-12-08",
-      "email": "8@8",
-      "phone": "",
-      "isActive": false
-    },
-    {
-      "id": 10,
-      "name": "uinhiuh",
-      "surname": "u9hu9h",
-      "dateOfBirth": "2010-03-08",
-      "email": "8@a",
-      "phone": "",
-      "isActive": false
     }
   ]
 }

@@ -1,34 +1,38 @@
-<h1>User Table</h1>
-
-<table>
-    <thead>
+<div class="table-container">
+    <h1>User Table</h1>
+  
+    <table>
+      <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Date of Birth</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Active</th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Date of Birth</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Active</th>
+          <th>Actions</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         <tr *ngFor="let user of users$ | async">
-            <td>{{ user.id }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.surname }}</td>
-            <td>{{ user.dateOfBirth | date: 'yyyy-MM-dd' }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.phone }}</td>
-            <td>{{ user.isActive ? 'Yes' : 'No' }}</td>
-            <td>
-                <button (click)="deletebyUser(user.id)">Delete</button>
-                <button (click)="editUser(user.id)">Edit</button>
-            </td>
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.surname }}</td>
+          <td>{{ user.dateOfBirth | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.isActive ? 'Yes' : 'No' }}</td>
+          <td>
+            <button (click)="deletebyUser(user.id)">Delete</button>
+            <button (click)="editUser(user.id)">Edit</button>
+          </td>
         </tr>
-    </tbody>
-</table>
-
-<div *ngIf="users$ | async as users">
-    <div *ngIf="users.length === 0">No users available.</div>
-</div>
+      </tbody>
+    </table>
+  
+    <div *ngIf="users$ | async as users">
+      <div *ngIf="users.length === 0" class="no-users">No users available.</div>
+    </div>
+  </div>
+  

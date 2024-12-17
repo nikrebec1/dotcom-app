@@ -1,5 +1,8 @@
-<div class="custom">
-    <p>sidebar works!</p>
-    <button (click)="navigateTo('users-table')">User Table</button>
-    <button (click)="navigateTo('add-user')">Add User</button>
+
+<div class="sidebar">
+  <div class="sidebar-title">Menu</div>
+  <nav>
+    <button (click)="navigateTo('users-table')" routerLink="/users-table" routerLinkActive="active-link">Users Table</button>
+    <button (click)="navigateTo('add-user')" routerLink="/add-user" routerLinkActive="active-link">Add User</button>
+  </nav>
 </div>

@@ -36,13 +36,12 @@ export class UserTableComponent implements OnInit {
   }
 
 
-  editUser(id: number): void {
+  editUser(id: string): void {
     this.router.navigate(['/update-user', id]); // Pass the user ID to the update-user route
   }
 
-  deletebyUser(userId: number): void {
-    const id = Number(userId) 
-    this.store.dispatch(deleteUser({id}))
+  deletebyUser(userId: string): void {
+    this.store.dispatch(deleteUser({id: userId}))
   }
 
 }

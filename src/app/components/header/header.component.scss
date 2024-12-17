@@ -1,3 +1,22 @@
-.custom {
-    background-color: lightblue;
+/* Header Container */
+header {
+    background-color: #007bff;
+    /* Primary header background */
+    color: #fff;
+    /* Text color */
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Logo Styling */
+    .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #fff;
+    }
+
+
 }

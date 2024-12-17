@@ -18,8 +18,11 @@ export const selectLoading = createSelector(
   (state: UserState) => state?.loading
 );
 
-export const selectUserById = (id: number) =>
-  createSelector(
+export const selectUserById = (id: string) => {
+  return createSelector(
     selectAllUsers,
-    (users) => users.find((user) => user.id === id)
-);
+    (users) => {
+      console.log("Users in selectUserById:", users); // Debugging log
+      return users ? users.find((user) => user.id === id) : undefined;
+    })
+};
