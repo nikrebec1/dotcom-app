@@ -1,4 +1,4 @@
-import { User } from "../../types/user.type"
+import { User } from "../../models/user.model"
 
 export type UserState = {
     users: User[],

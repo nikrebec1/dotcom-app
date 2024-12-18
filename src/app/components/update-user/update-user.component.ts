@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import * as UserActions from '../../states/user-state/user.actions'
 import * as UserSelector from '../../states/user-state/user.selector'
 import { ApiService } from '../../services/api.service';
-import { User } from '../../types/user.type';
+import { User } from '../../models/user.model';
 import { Observable, filter, switchMap, take } from 'rxjs';
 
 
