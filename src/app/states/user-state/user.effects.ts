@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { exhaustMap, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 import * as UserActions from './user.actions';
-import { User } from '../../types/user.type';
+import { User } from '../../models/user.model';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';

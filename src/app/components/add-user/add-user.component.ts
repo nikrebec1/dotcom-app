@@ -43,7 +43,8 @@ export class AddUserComponent implements OnInit {
 
       id: [
         null,
-        [Validators.required],
+        [Validators.required,],
+        
       ],
       name: [
         '',

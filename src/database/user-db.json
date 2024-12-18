@@ -1,15 +1,6 @@
 {
   "users": [
     {
-      "id": "5",
-      "name": "bebo",
-      "surname": "bimbo",
-      "dateOfBirth": "1970-03-12",
-      "email": "a@g",
-      "phone": "",
-      "isActive": false
-    },
-    {
       "id": "8",
       "name": "new user",
       "surname": "olduser",
