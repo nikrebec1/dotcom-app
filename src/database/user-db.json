@@ -19,15 +19,6 @@
       "isActive": true
     },
     {
-      "id": "2",
-      "name": "kekw",
-      "surname": "kekw",
-      "dateOfBirth": "1999-12-12",
-      "email": "k@k",
-      "phone": "",
-      "isActive": true
-    },
-    {
       "id": 3,
       "name": "a asd",
       "surname": "asdsadasd",
@@ -35,6 +26,24 @@
       "email": "a@a",
       "phone": 123123123,
       "isActive": true
+    },
+    {
+      "id": "3",
+      "name": "asdasdasd",
+      "surname": "aassda",
+      "dateOfBirth": "2024-12-12",
+      "email": "a@b",
+      "phone": "",
+      "isActive": false
+    },
+    {
+      "id": "2",
+      "name": "asdasdasd",
+      "surname": "kekw",
+      "dateOfBirth": "1999-03-08",
+      "email": "nik.rebec@gmail.com",
+      "phone": "",
+      "isActive": false
     }
   ]
 }
