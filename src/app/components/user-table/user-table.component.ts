@@ -7,7 +7,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as UserSelectors from '../../states/user-state/user.selector'
-import { deleteUser } from '../../states/user-state/user.actions';
+import * as UserActions from '../../states/user-state/user.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-user-table',
@@ -24,7 +26,8 @@ export class UserTableComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private store: Store
+    private store: Store,
+    private dialog: MatDialog
   ) {
 
   }
@@ -41,9 +44,23 @@ export class UserTableComponent implements OnInit {
   }
 
   deletebyUser(userId: string): void {
-    this.store.dispatch(deleteUser({id: userId}))
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Confirm Deletion',
+        content: 'Are you sure you want to delete this user?',
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        // Dispatch the delete action
+        this.store.dispatch(UserActions.deleteUser({ id: userId }));
+        console.log(`User with ID ${userId} deleted.`);
+      } else {
+        console.log('Deletion canceled.');
+      }
+    });
   }
-
 }
-
-

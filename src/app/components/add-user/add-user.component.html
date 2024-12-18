@@ -1,33 +1,80 @@
 <h1>Add User</h1>
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <!-- ID Input -->
   <div>
     <label for="id">ID:</label>
-    <input id="id" formControlName="id" type="string" />
+    <input id="id" formControlName="id" type="text" (input)="checkDuplicateId()" />
+    <div class="error">
+      <small *ngIf="isDuplicateId">ID already in use</small>
+    </div>
   </div>
+
+  <!-- Name Input -->
   <div>
     <label for="name">Name:</label>
     <input id="name" formControlName="name" type="text" />
+    <div class="error">
+      <small *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+        Name is required (3-20 characters).
+      </small>
+    </div>
   </div>
+
+  <!-- Surname Input -->
   <div>
     <label for="surname">Surname:</label>
     <input id="surname" formControlName="surname" type="text" />
+    <div class="error">
+      <small *ngIf="userForm.get('surname')?.invalid && userForm.get('surname')?.touched">
+        Surname is required (3-20 characters).
+      </small>
+    </div>
   </div>
+
+  <!-- Date of Birth Input -->
   <div>
     <label for="dateOfBirth">Date of Birth:</label>
     <input id="dateOfBirth" formControlName="dateOfBirth" type="date" />
+    <div class="error">
+      <small *ngIf="
+        userForm.get('dateOfBirth')?.invalid &&
+        userForm.get('dateOfBirth')?.touched">
+        Date of birth is required and must not be older than 1960.
+      </small>
+    </div>
   </div>
+
+  <!-- Email Input -->
   <div>
     <label for="email">Email:</label>
     <input id="email" formControlName="email" type="email" />
+    <div class="error">
+      <small *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="error">
+        A valid email is required.
+      </small>
+    </div>
+
   </div>
+
+  <!-- Phone Input -->
   <div>
     <label for="phone">Phone:</label>
     <input id="phone" formControlName="phone" type="number" />
+    <div class="error">
+      <small *ngIf="userForm.get('phone')?.invalid && userForm.get('phone')?.touched" class="error">
+        Phone must be exactly 9 digits (optional).
+      </small>
+    </div>
+    
   </div>
-  <div>
+
+  <!-- Active Checkbox -->
+  <div class="d-flex align-items-center">
     <label for="isActive">Active:</label>
     <input id="isActive" formControlName="isActive" type="checkbox" />
   </div>
-  <button type="submit" [disabled]="userForm.invalid">Save</button>
+
+  <!-- Buttons -->
+  <button type="submit" [disabled]="userForm.invalid || isDuplicateId">Save</button>
   <button type="button" (click)="cancel()">Cancel</button>
 </form>

@@ -4,6 +4,10 @@ import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModu
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as UserActions from '../../states/user-state/user.actions'
+import * as UserSelectors from '../../states/user-state/user.selector';
+
+import { Observable } from 'rxjs';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-add-user',
@@ -17,6 +21,10 @@ import * as UserActions from '../../states/user-state/user.actions'
 export class AddUserComponent implements OnInit {
 
   userForm!: FormGroup;
+  toggleEdit: boolean = false;
+  users$!: Observable<User[]>;
+  isDuplicateId: boolean = false;
+
 
   constructor(
     private fb: FormBuilder,
@@ -26,6 +34,7 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm()
+    this.users$ = this.store.select(UserSelectors.selectAllUsers);
   }
 
 
@@ -75,19 +84,46 @@ export class AddUserComponent implements OnInit {
       isActive: [false, Validators.required], // Must be selected (true or false)
     });
 
+
+    
+  }
+
+  checkDuplicateId(): void {
+    const enteredId:string = this.userForm.get('id')?.value;
+
+    // Check if the entered ID already exists
+    this.users$.subscribe((users) => {
+      this.isDuplicateId = users.some((user) => user.id === enteredId);
+    });
   }
 
   onSubmit(): void {
     if (this.userForm.valid) {
-      const user = this.userForm.getRawValue()
-      this.store.dispatch(UserActions.addUser({ user }))
+      const user = this.userForm.getRawValue();
 
+      // Check for duplicate ID before dispatching
+      if (this.isDuplicateId) {
+        console.error("Duplicate ID: This ID is already in use.");
+        return; // Prevent further execution
+      }
 
+      // Dispatch the Add User action
+      this.store.dispatch(UserActions.addUser({ user }));
+
+      // Reset the form after successful dispatch
+      this.userForm.reset();
+      this.isDuplicateId = false;
+
+      // Optional: Navigate back to the user table or show a success message
+      this.router.navigate(['/users-table']);
+    } else {
+      console.error("Form is invalid. Please fill out all required fields correctly.");
     }
   }
 
+
   cancel(): void {
-    this.router.navigate(['/users']);
+    this.router.navigate(['/users-table']);
   }
 
   dateOfBirthValidator() {
@@ -101,6 +137,12 @@ export class AddUserComponent implements OnInit {
         : { invalidDateOfBirth: true }; // Invalid
     };
   }
+
+  onToggleEdit(): void {
+    this.toggleEdit = !this.toggleEdit
+
+  }
+
 
 }
 
