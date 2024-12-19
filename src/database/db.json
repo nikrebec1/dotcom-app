@@ -2,46 +2,46 @@
   "users": [
     {
       "id": "8",
-      "name": "new user",
-      "surname": "olduser",
+      "name": "John",
+      "surname": "Smith",
       "dateOfBirth": "2025-01-02",
-      "email": "nik.rebec@gmail.com",
+      "email": "john.smith@example.com",
       "phone": "",
       "isActive": false
     },
     {
       "id": "7",
-      "name": "sajo stroj",
-      "surname": "sajo stroj stroj",
+      "name": "Robert",
+      "surname": "Brown",
       "dateOfBirth": "2024-12-04",
-      "email": "nik.rebec@gmail.com",
+      "email": "robert.brown@example.com",
       "phone": "",
       "isActive": true
     },
     {
       "id": "3",
-      "name": "asdasdasd",
-      "surname": "aassda",
+      "name": "Emily",
+      "surname": "Davis",
       "dateOfBirth": "2024-12-12",
-      "email": "a@b",
+      "email": "emily.davis@example.com",
       "phone": "",
       "isActive": false
     },
     {
       "id": "2",
-      "name": "asdasdasd",
-      "surname": "kekw",
+      "name": "Michael",
+      "surname": "Johnson",
       "dateOfBirth": "1999-03-08",
-      "email": "nik.rebec@gmail.com",
+      "email": "michael.johnson@example.com",
       "phone": "",
       "isActive": false
     },
     {
       "id": "55",
-      "name": "asdasdasd",
-      "surname": "pajdoaaaaaaaa",
+      "name": "Sarah",
+      "surname": "Wilson",
       "dateOfBirth": "2024-12-07",
-      "email": "niki.rebec77@gmail.com",
+      "email": "sarah.wilson@example.com",
       "phone": "",
       "isActive": false
     }
