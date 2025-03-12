@@ -120,7 +120,7 @@ export class UpdateUserComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/users']);
+    this.router.navigate(['/users-table']);
   }
 
   patchForm(user: User): void {

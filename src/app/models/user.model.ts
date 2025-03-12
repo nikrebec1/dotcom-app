@@ -5,5 +5,6 @@ export type User = {
     dateOfBirth: Date,
     email: string,
     phone: number,
-    isActive: boolean
+    isActive: boolean,
+    password: string,
 }

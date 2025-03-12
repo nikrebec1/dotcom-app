@@ -20,8 +20,8 @@ import { DialogComponent } from '../dialog/dialog.component';
   providers: [ApiService]
 })
 export class UserTableComponent implements OnInit {
-  users$!: Observable<User[]> 
-  loading$!: Observable<boolean> 
+  users$!: Observable<User[]>
+  loading$!: Observable<boolean>
 
 
   constructor(
@@ -35,12 +35,12 @@ export class UserTableComponent implements OnInit {
   ngOnInit(): void {
     this.users$ =  this.store.select(UserSelectors.selectAllUsers);
     this.loading$ = this.store.select(UserSelectors.selectLoading);
-  
+
   }
 
 
   editUser(id: string): void {
-    this.router.navigate(['/update-user', id]); // Pass the user ID to the update-user route
+    this.router.navigate(['/update-user', id]);
   }
 
   deletebyUser(userId: string): void {

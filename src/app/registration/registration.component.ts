@@ -1,36 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Store } from '@ngrx/store';
-import * as UserActions from '../../states/user-state/user.actions'
-import * as UserSelectors from '../../states/user-state/user.selector';
-
-import { Observable } from 'rxjs';
-import { User } from '../../models/user.model';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {delay, Observable, of} from 'rxjs';
+import {User} from '../models/user.model';
+import {Router} from '@angular/router';
+import {Store} from '@ngrx/store';
+import { v4 as uuidv4 } from 'uuid';
+import * as UserSelectors from '../states/user-state/user.selector';
+import * as UserActions from '../states/user-state/user.actions';
+import {NgIf} from '@angular/common';
 
 @Component({
-  selector: 'app-add-user',
+  selector: 'app-registration',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './add-user.component.html',
-  styleUrl: './add-user.component.scss'
+  imports: [
+    FormsModule,
+    NgIf,
+    ReactiveFormsModule
+  ],
+  templateUrl: './registration.component.html',
+  styleUrl: './registration.component.scss'
 })
-
-
-export class AddUserComponent implements OnInit {
+export class RegistrationComponent implements OnInit {
 
   userForm!: FormGroup;
-  toggleEdit: boolean = false;
   users$!: Observable<User[]>;
   isDuplicateId: boolean = false
+  showSuccessPopup = false;
+  hideModalTimeout: any;
+  navigateTimeout: any;
+  passwordVisible = false;
+
+
 
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private store: Store,
-  ) { }
+    private cdr: ChangeDetectorRef
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm()
@@ -45,8 +54,7 @@ export class AddUserComponent implements OnInit {
         null,
         [
           Validators.required,
-          Validators.pattern(/^[0-9]+$/),
-        ],
+          Validators.pattern(/^[0-9]+$/)],
 
       ],
       name: [
@@ -58,6 +66,14 @@ export class AddUserComponent implements OnInit {
         ],
       ],
       surname: [
+        '',
+        [
+          Validators.required, // Field must be filled
+          Validators.minLength(3), // Minimum 3 characters
+          Validators.maxLength(20), // Maximum 20 characters
+        ],
+      ],
+      password: [
         '',
         [
           Validators.required, // Field must be filled
@@ -89,11 +105,10 @@ export class AddUserComponent implements OnInit {
     });
 
 
-
   }
 
   checkDuplicateId(): void {
-    const enteredId:string = this.userForm.get('id')?.value;
+    const enteredId: string = this.userForm.get('id')?.value;
 
     // Check if the entered ID already exists
     this.users$.subscribe((users) => {
@@ -111,18 +126,44 @@ export class AddUserComponent implements OnInit {
         return; // Prevent further execution
       }
 
+      const token = uuidv4();
+      user.token = token;
+
+      localStorage.setItem('userToken', token);
+
+
       // Dispatch the Add User action
-      this.store.dispatch(UserActions.addUser({ user }));
+      this.store.dispatch(UserActions.addUser({user}));
 
       // Reset the form after successful dispatch
-      this.userForm.reset();
+
       this.isDuplicateId = false;
 
+      this.showSuccessPopup = true;
+
+      this.hideModalTimeout = setTimeout(() => {
+        this.showSuccessPopup = false;
+      }, 5000); // Hide modal after 5s
+
+
+      this.store.select(UserSelectors.selectAllUsers).subscribe(() => {
+        this.navigateTimeout = setTimeout(() => {
+          this.router.navigate(['/users-table']);
+        }, 5000);
+      });
       // Optional: Navigate back to the user table or show a success message
-      this.router.navigate(['/users-table']);
+
+
+      console.log(user, this.showSuccessPopup, "5")
     } else {
       console.error("Form is invalid. Please fill out all required fields correctly.");
     }
+  }
+
+  navigateImmediately(): void {
+    clearTimeout(this.hideModalTimeout); // Stop the auto-hide timeout
+    clearTimeout(this.navigateTimeout);  // Stop the auto-navigation timeout
+    this.router.navigate(['/users-table']);
   }
 
 
@@ -138,15 +179,13 @@ export class AddUserComponent implements OnInit {
       const cutoffDate = new Date('1960-01-01');
       return selectedDate >= cutoffDate
         ? null // Valid
-        : { invalidDateOfBirth: true }; // Invalid
+        : {invalidDateOfBirth: true}; // Invalid
     };
   }
 
-  onToggleEdit(): void {
-    this.toggleEdit = !this.toggleEdit
-
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible
   }
-
 
 }
 

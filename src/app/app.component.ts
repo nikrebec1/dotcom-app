@@ -18,11 +18,19 @@ import { loadUsers } from './states/user-state/user.actions';
 export class AppComponent implements OnInit {
 
   title = 'dotcom-app';
+  private router: any;
 
   constructor(private store: Store) {}
 
   ngOnInit() {
     this.store.dispatch(loadUsers())
+    const token = localStorage.getItem('userToken');
+
+    // If the token in the URL doesn't match the one in localStorage, invalidate the session
+    if (!token) {
+      localStorage.removeItem('userToken');
+      this.router.navigate(['/login']);
+    }
   }
 }
 

@@ -26,4 +26,8 @@ export class ApiService {
 
     return this.http.delete<User>(`${this.apiUrl}/${id}`);
   }
+
+  // confirmRegistration(token: string): Observable<any> {
+  //   return this.call('GET', 'confirmRegistration?token=' + token)
+  // }
 }

@@ -1,4 +1,4 @@
-<h1>Add User</h1>
+<h1>Create an account</h1>
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <!-- ID Input -->
   <div>
@@ -30,6 +30,19 @@
     <div class="error">
       <small *ngIf="userForm.get('surname')?.invalid && userForm.get('surname')?.dirty">
         Surname is required (3-20 characters).
+      </small>
+    </div>
+  </div>
+
+  <div>
+    <label>Password:</label>
+    <input [type]="passwordVisible ? 'text' : 'password'" formControlName="password" type="text" />
+    <div (click)="togglePasswordVisibility()">
+
+    </div>
+    <div class="error">
+      <small *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.dirty">
+        Password is required (3-20 characters).
       </small>
     </div>
   </div>
@@ -71,13 +84,28 @@
 
   </div>
 
-  <!-- Active Checkbox -->
-  <div class="d-flex align-items-center">
-    <label for="isActive">Active:</label>
-    <input id="isActive" formControlName="isActive" type="checkbox" />
-  </div>
 
   <!-- Buttons -->
-  <button type="submit" [disabled]="userForm.invalid || isDuplicateId">Save</button>
+  <button type="submit" [disabled]="userForm.invalid || isDuplicateId">Register</button>
   <button type="button" (click)="cancel()">Cancel</button>
+
 </form>
+
+<div *ngIf="showSuccessPopup" class="modal show d-block" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Success</h5>
+        <button type="button" class="btn-close" (click)="showSuccessPopup = false; navigateImmediately()"></button>
+      </div>
+      <div class="modal-body">
+        <p>Registration Successful!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="showSuccessPopup = false; navigateImmediately()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

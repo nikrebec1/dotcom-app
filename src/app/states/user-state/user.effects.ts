@@ -21,7 +21,7 @@ export const loadUser = createEffect(
         )
     },
     {functional: true}
-) 
+)
 
 export const deleteUser = createEffect(
     (actions$ = inject(Actions), apiService = inject(ApiService)) => {
@@ -35,7 +35,7 @@ export const deleteUser = createEffect(
         )
     },
     {functional: true}
-) 
+)
 
 export const addUser = createEffect(
     (actions$ = inject(Actions), apiService = inject(ApiService), router = inject(Router), store = inject(Store)) => {
@@ -47,15 +47,12 @@ export const addUser = createEffect(
 
                 if (idExists) {
 
-                  console.log("empty")  
+                  console.log("empty")
                   return EMPTY
                 }
                 return apiService.addUser(action.user).pipe(
                     map((user: User) => UserActions.addUserSuccess({ user })),
-                    tap(() => {
-                        router.navigate(['users-table'])
 
-                    })
                 )}
             )
         )
@@ -76,7 +73,7 @@ export const updateUser = createEffect(
                     })
                 )}
             )
-            
+
         )
     },
     {functional: true}
