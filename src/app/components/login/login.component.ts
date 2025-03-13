@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
       const { id, password } = this.userForm.getRawValue();
 
       this.users$.subscribe(users => {
-        const user = users.find(u => u.id === id && u.password === password);
+        const user = users.find(res => res.id === id && res.password === password);
 
         if (user) {
           // Credentials match, generate a token
@@ -87,12 +87,14 @@ export class LoginComponent implements OnInit {
 
           this.hideModalTimeout = setTimeout(() => {
             this.showSuccessPopup = false;
-          }, 5000); // Hide modal after 5s
+          }, 2000); // Hide modal after 5s
 
           this.store.select(UserSelectors.selectAllUsers).subscribe(() => {
             this.navigateTimeout = setTimeout(() => {
-              this.router.navigate(['/users-table']);
-            }, 5000);
+              this.router.navigate(['/users-table']).then(() => {
+                window.location.reload();
+              });
+            }, 2000);
           });
 
 

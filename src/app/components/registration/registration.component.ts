@@ -1,13 +1,14 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {delay, Observable, of} from 'rxjs';
-import {User} from '../models/user.model';
+import {delay, Observable, of, take} from 'rxjs';
+import {User} from '../../models/user.model';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import { v4 as uuidv4 } from 'uuid';
-import * as UserSelectors from '../states/user-state/user.selector';
-import * as UserActions from '../states/user-state/user.actions';
+import * as UserSelectors from '../../states/user-state/user.selector';
+import * as UserActions from '../../states/user-state/user.actions';
 import {NgIf} from '@angular/common';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-registration',
@@ -44,6 +45,7 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.initForm()
     this.users$ = this.store.select(UserSelectors.selectAllUsers);
+    this.setAvailableUserId()
   }
 
 
@@ -148,7 +150,9 @@ export class RegistrationComponent implements OnInit {
 
       this.store.select(UserSelectors.selectAllUsers).subscribe(() => {
         this.navigateTimeout = setTimeout(() => {
-          this.router.navigate(['/users-table']);
+          this.router.navigate(['/users-table']).then(() => {
+            window.location.reload();
+          });
         }, 5000);
       });
       // Optional: Navigate back to the user table or show a success message
@@ -185,6 +189,35 @@ export class RegistrationComponent implements OnInit {
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible
+  }
+
+  setAvailableUserId(): void {
+    this.store.select(UserSelectors.selectAllUsers)  // Get users from the store
+      .pipe(
+        take(1),  // Get only one response (unsubscribe automatically)
+        map(users => this.findNextAvailableId(users))  // Find the next available ID
+      )
+      .subscribe(nextId => {
+        this.userForm.patchValue({ id: nextId });  // Assign the new ID to the form
+      });
+  }
+
+  findNextAvailableId(users: User[]): number {
+    // Convert all user IDs to numbers, remove invalid ones, and sort in ascending order
+    const existingIds = users.map(user => Number(user.id)).filter(id => !isNaN(id)).sort((a, b) => a - b);
+
+    let nextId = 1; // Start checking from ID 1
+
+    // Loop through existing IDs to find the first missing number
+    for (const id of existingIds) {
+      if (id === nextId) {
+        nextId++;  // If ID is taken, check the next number
+      } else {
+        break;  // If there's a gap, stop and use nextId
+      }
+    }
+
+    return nextId;  // Return the first available ID
   }
 
 }

@@ -1,9 +1,20 @@
-
 <div class="sidebar">
   <div class="sidebar-title">Menu</div>
   <nav>
-    <button (click)="navigateTo('users-table')" routerLink="/users-table" routerLinkActive="active-link">Users Table</button>
-    <button (click)="navigateTo('add-user')" routerLink="/add-user" routerLinkActive="active-link">Add User</button>
-    <button (click)="navigateTo('registration')" routerLink="/registration" routerLinkActive="active-link">Registration</button>
+    <button (click)="navigateTo('registration')" routerLink="/registration" routerLinkActive="active-link">
+      Registration
+    </button>
+    <div *ngIf="!hasToken">
+    <button (click)="navigateTo('login')" routerLink="/login" routerLinkActive="active-link">
+      Login
+    </button>
+    </div>
+    <div *ngIf="hasToken">
+      <button (click)="navigateTo('users-table')" routerLink="/users-table" routerLinkActive="active-link">Users Table </button>
+      <button (click)="navigateTo('add-user')" routerLink="/add-user" routerLinkActive="active-link">Add User</button>
+      <button (click)="logout()" routerLink="/login" routerLinkActive="active-link">Logout</button>
+
+    </div>
+
   </nav>
 </div>

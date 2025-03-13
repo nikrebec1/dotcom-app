@@ -3,7 +3,7 @@ import { UpdateUserComponent } from './components/update-user/update-user.compon
 import { UserTableComponent } from './components/user-table/user-table.component';
 import { AddUserComponent } from './components/add-user/add-user.component';
 import {LoginComponent} from './components/login/login.component';
-import {RegistrationComponent} from './registration/registration.component';
+import {RegistrationComponent} from './components/registration/registration.component';
 import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
