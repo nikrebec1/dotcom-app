@@ -5,7 +5,7 @@ import { initialAuthGuardState } from './auth-guard.state';
 export const authGuardReducer = createReducer(
   initialAuthGuardState,
 
-  on(AuthGuardActions.loginSuccess, (state, {token}) => ({...state, token, isAuthenticated: true })),
+  on(AuthGuardActions.loginSuccess, (state, {token}) => {sessionStorage.setItem('authToken', token); return {...state, token, isAuthenticated: true }}),
   on(AuthGuardActions.checkAuthStatus, (state) => ({...state,})),
   on(AuthGuardActions.logout, (state) => ({...state, token: '', isAuthenticated: false,})),
 

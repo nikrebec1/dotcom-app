@@ -15,10 +15,11 @@ export const authGuard: CanActivateFn = (route, state) => {
       take(1),
       map(isAuthenticated => {
         if (!isAuthenticated) {
-          router.navigate(['/login']);
-          return false;
+            console.log(isAuthenticated, "prdni2")
+            router.navigate(['/login']);
+            return false;
         }
-          console.log("prdni")
+        console.log(isAuthenticated, "prdni")
         return true;
       })
   );

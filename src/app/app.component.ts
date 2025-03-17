@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
 
     this.store.select(selectAuthGuardState).pipe(take(1)).subscribe(authState => {
       if (!authState.isAuthenticated) {
+        console.log(authState, "prdni3")
         this.router.navigate(['/login']);
       }
     });

@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {delay, Observable, of, Subscription, take} from 'rxjs';
+import {delay, filter, Observable, of, Subscription, take} from 'rxjs';
 import {User} from '../../models/user.model';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
@@ -8,9 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 import * as UserSelectors from '../../states/user-state/user.selector';
 import * as UserActions from '../../states/user-state/user.actions';
 import {NgIf} from '@angular/common';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {loginSuccess} from '../../states/auth-guard-state/auth-guard.actions';
 import {selectIsAuthenticated} from '../../states/auth-guard-state/auth-guard.selector';
+import {selectUserState} from '../../states/user-state/user.selector';
 
 @Component({
   selector: 'app-registration',
@@ -47,7 +48,16 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm()
-    this.users$ = this.store.select(UserSelectors.selectAllUsers);
+    this.store.dispatch(UserActions.loadUsers())
+    // this.store.select(selectUserState)
+    //   .pipe(tap(state => console.log('User state1:', state)))
+    //   .subscribe();
+    //
+    //
+    //
+    // this.store.select(UserSelectors.selectAllUsers)
+    //   .pipe(tap(state => console.log('User state2:', state)))
+    //   .subscribe();
     this.setAvailableUserId()
   }
 
@@ -164,8 +174,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   setAvailableUserId(): void {
-    this.store.select(UserSelectors.selectAllUsers)  // Get users from the store
+    this.store.select(UserSelectors.selectAllUsers)  // Get users from the storekekw
       .pipe(
+        tap(users => console.log('Users from store2:', users)),
+        filter(users => users && users.length > 0),
+        tap(users => console.log('Users from store:', users)),
         take(1),  // Get only one response (unsubscribe automatically)
         map(users => this.findNextAvailableId(users))  // Find the next available ID
       )

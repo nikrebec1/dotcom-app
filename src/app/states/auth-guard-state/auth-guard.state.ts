@@ -3,7 +3,9 @@ export type AuthGuardState = {
   token: string
 }
 
+const storedToken = sessionStorage.getItem('authToken');
+
 export const initialAuthGuardState:  AuthGuardState = {
-  isAuthenticated: false,
-  token: ""
+  isAuthenticated: !!storedToken,
+  token: storedToken ?? ""
 }

@@ -13,4 +13,5 @@ export const routes: Routes = [
     { path: 'users-table', component: UserTableComponent, canActivate: [authGuard] },
     { path: 'update-user/:id', component: UpdateUserComponent, canActivate: [authGuard] },
     { path: 'add-user', component: AddUserComponent, canActivate: [authGuard] }, // Add-user route
+    { path: '**', redirectTo: '/registration', pathMatch: 'full' },
 ];

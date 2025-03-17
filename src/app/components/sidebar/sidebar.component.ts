@@ -33,6 +33,7 @@ export class SidebarComponent implements OnInit {
 
   logout(): void {
     this.store.dispatch(AuthGuardActions.logout());
+    sessionStorage.removeItem('authToken')
     this.router.navigate(['/login']); // Redirect to login page
   }
 
