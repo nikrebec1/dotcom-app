@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {NgIf} from '@angular/common';
+import * as AuthGuardActions from "../../states/auth-guard-state/auth-guard.actions";
+import { Store } from '@ngrx/store';
+import {selectIsAuthenticated} from "../../states/auth-guard-state/auth-guard.selector";
 
 @Component({
   selector: 'app-sidebar',
@@ -14,14 +17,12 @@ export class SidebarComponent implements OnInit {
   hasToken: boolean = false;
 
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private store: Store) {}
 
   ngOnInit() {
-    this.checkToken();
-  }
-
-  checkToken(): void {
-    this.hasToken = !!localStorage.getItem('userToken'); // Check if token exists
+    this.store.select(selectIsAuthenticated).subscribe(isAuth => {
+      this.hasToken = isAuth;
+    });
   }
 
 
@@ -31,8 +32,7 @@ export class SidebarComponent implements OnInit {
   }
 
   logout(): void {
-    localStorage.removeItem('userToken'); // Remove token
-    this.hasToken = false; // Update flag
+    this.store.dispatch(AuthGuardActions.logout());
     this.router.navigate(['/login']); // Redirect to login page
   }
 

@@ -6,14 +6,16 @@ import { userReducer } from './states/user-state/user.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { provideHttpClient } from '@angular/common/http';
 import * as userEffects from './states/user-state/user.effects'
+import {authGuardReducer} from './states/auth-guard-state/auth-guard.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes), 
+    provideRouter(routes),
     provideStore(),
     provideHttpClient(),
     provideState({ name: 'user', reducer: userReducer }),
+    provideState({ name: 'authGuard', reducer: authGuardReducer }),
     provideEffects(userEffects)
   ]
 };

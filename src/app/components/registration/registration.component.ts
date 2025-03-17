@@ -1,6 +1,6 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {delay, Observable, of, take} from 'rxjs';
+import {delay, Observable, of, Subscription, take} from 'rxjs';
 import {User} from '../../models/user.model';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
@@ -9,6 +9,8 @@ import * as UserSelectors from '../../states/user-state/user.selector';
 import * as UserActions from '../../states/user-state/user.actions';
 import {NgIf} from '@angular/common';
 import {map} from 'rxjs/operators';
+import {loginSuccess} from '../../states/auth-guard-state/auth-guard.actions';
+import {selectIsAuthenticated} from '../../states/auth-guard-state/auth-guard.selector';
 
 @Component({
   selector: 'app-registration',
@@ -21,15 +23,16 @@ import {map} from 'rxjs/operators';
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, OnDestroy {
 
   userForm!: FormGroup;
   users$!: Observable<User[]>;
   isDuplicateId: boolean = false
   showSuccessPopup = false;
-  hideModalTimeout: any;
+  hideModalTimeout: any
   navigateTimeout: any;
   passwordVisible = false;
+  subscriptions: Subscription = new Subscription()
 
 
 
@@ -122,58 +125,27 @@ export class RegistrationComponent implements OnInit {
     if (this.userForm.valid) {
       const user = this.userForm.getRawValue();
 
-      // Check for duplicate ID before dispatching
-      if (this.isDuplicateId) {
-        console.error("Duplicate ID: This ID is already in use.");
-        return; // Prevent further execution
-      }
-
-      const token = uuidv4();
-      user.token = token;
-
-      localStorage.setItem('userToken', token);
-
-
       // Dispatch the Add User action
       this.store.dispatch(UserActions.addUser({user}));
+      this.userForm.reset(); // Clear form fields
 
-      // Reset the form after successful dispatch
-
-      this.isDuplicateId = false;
 
       this.showSuccessPopup = true;
 
       this.hideModalTimeout = setTimeout(() => {
         this.showSuccessPopup = false;
+        this.router.navigate(['/login'])
       }, 5000); // Hide modal after 5s
 
-
-      this.store.select(UserSelectors.selectAllUsers).subscribe(() => {
-        this.navigateTimeout = setTimeout(() => {
-          this.router.navigate(['/users-table']).then(() => {
-            window.location.reload();
-          });
-        }, 5000);
-      });
-      // Optional: Navigate back to the user table or show a success message
-
-
-      console.log(user, this.showSuccessPopup, "5")
-    } else {
-      console.error("Form is invalid. Please fill out all required fields correctly.");
     }
   }
 
   navigateImmediately(): void {
     clearTimeout(this.hideModalTimeout); // Stop the auto-hide timeout
     clearTimeout(this.navigateTimeout);  // Stop the auto-navigation timeout
-    this.router.navigate(['/users-table']);
+    this.router.navigate(['/login']);
   }
 
-
-  cancel(): void {
-    this.router.navigate(['/users-table']);
-  }
 
   dateOfBirthValidator() {
     return (control: AbstractControl) => {
@@ -198,7 +170,8 @@ export class RegistrationComponent implements OnInit {
         map(users => this.findNextAvailableId(users))  // Find the next available ID
       )
       .subscribe(nextId => {
-        this.userForm.patchValue({ id: nextId });  // Assign the new ID to the form
+        this.userForm.patchValue({ id: nextId.toString() });
+        this.userForm.get('id')?.disable();// Assign the new ID to the form
       });
   }
 
@@ -218,6 +191,10 @@ export class RegistrationComponent implements OnInit {
     }
 
     return nextId;  // Return the first available ID
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe()
   }
 
 }

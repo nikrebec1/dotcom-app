@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {Observable, Subscription} from 'rxjs';
@@ -6,7 +6,10 @@ import {User} from '../../models/user.model';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import * as UserSelectors from '../../states/user-state/user.selector';
+import * as AuthGuardActions from '../../states/auth-guard-state/auth-guard.actions'
 import {v4 as uuidv4} from 'uuid';
+import {loginSuccess} from '../../states/auth-guard-state/auth-guard.actions';
+
 
 @Component({
   selector: 'app-login',
@@ -15,12 +18,12 @@ import {v4 as uuidv4} from 'uuid';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   userForm!: FormGroup;
   users$!: Observable<User[]>;
   passwordVisible = false;
-  private subscriptions: Subscription = new Subscription()
+  subscriptions: Subscription = new Subscription()
   showSuccessPopup = false;
   hideModalTimeout: any;
   navigateTimeout: any;
@@ -79,9 +82,7 @@ export class LoginComponent implements OnInit {
           // Credentials match, generate a token
           const token = uuidv4();
 
-
-          // Store the token in localStorage (so it persists across page reloads)
-          localStorage.setItem('userToken', token);
+          this.store.dispatch(loginSuccess({token}))
 
           this.showSuccessPopup = true;
 
@@ -92,7 +93,6 @@ export class LoginComponent implements OnInit {
           this.store.select(UserSelectors.selectAllUsers).subscribe(() => {
             this.navigateTimeout = setTimeout(() => {
               this.router.navigate(['/users-table']).then(() => {
-                window.location.reload();
               });
             }, 2000);
           });
@@ -113,5 +113,10 @@ export class LoginComponent implements OnInit {
     clearTimeout(this.navigateTimeout);  // Stop the auto-navigation timeout
     this.router.navigate(['/users-table']);
   }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe()
+  }
+
 
 }
